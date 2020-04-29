@@ -1,0 +1,11 @@
+babel
+envs
+python-dotenv
+python-dateutil==2.6.0
+flask
+flask-wtf
+flask_sqlalchemy
+Flask-Migrate
+Flask-Script
+psycopg2-binary
+WTForms

@@ -16,38 +16,10 @@ RUN dnf install -y \
     && npm cache clean -f \
     && n stable
 
-RUN pip3 install \
-    envs \
-    flask \
-    flask-admin \
-    peewee \
-    wtf-peewee \
-    psycopg2-binary \
-    cryptography==2.0 \
-    pymysql \
-    flask-security-too \
-    pandas \
-    scikit-learn \
-    geopandas \
-    geopy \
-    elasticsearch \
-    geojson \
-    plotly \
-    tqdm \
-    mapboxgl \
-    cufflinks \
-    geohash2 \
-    tables \
-    mixpanel \
-    GeoAlchemy2 \
-    nltk \
-    beautifulsoup4 \
-    flask-uploads \
-    flask-dropzone
-
 COPY . /var/www/html
 COPY ./docker/nginx.conf /etc/nginx/
-COPY ./jupyter/nltk_data/ /usr/share/nltk_data/
+
+RUN pip3 install -r requirements.txt
 RUN ln -sf /dev/stdout /var/www/html/access.log && ln -sf /dev/stderr /var/www/html/error.log
 RUN echo "screen -r" > /root/.bash_history
 

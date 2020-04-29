@@ -11,22 +11,16 @@ services:
     volumes:
      - .:/var/www/html:delegated
 
-  jupyter:
-    build:
-      context: ./jupyter
-    ports:
-      - "8888:8888"
-    links:
-      - postgres
-    volumes:
-      - "./notebooks:/notebooks"
-      - "./data:/data"
-
   postgres:
     image: postgres
     restart: always
+    env_file: .env
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: data
       POSTGRES_PASSWORD: data
       POSTGRES_DB: data
+    volumes:
+      - ./postgres:/var/lib/postgresql:delegated
 
