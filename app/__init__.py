@@ -1,14 +1,21 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
+
+from .config import Config
 
 import babel
 import dateutil.parser
 
-
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
+
+from .blueprints import *
+
+app.register_blueprint(core)
+app.register_blueprint(artist)
+app.register_blueprint(venue)
+app.register_blueprint(show)
 
 
 def format_datetime(value, format='medium'):
@@ -21,3 +28,4 @@ def format_datetime(value, format='medium'):
 
 
 app.jinja_env.filters['datetime'] = format_datetime
+

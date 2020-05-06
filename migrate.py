@@ -1,6 +1,5 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from config import Config
 import importlib
 import os
 
@@ -10,7 +9,7 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-MODELS_DIRECTORY = "models"
+MODELS_DIRECTORY = "app/models"
 EXCLUDE_FILES = ["__init__.py"]
 
 def import_models():

@@ -32,6 +32,7 @@
 <script src="/static/js/libs/moment.min.js"></script>
 <script type="text/javascript" src="/static/js/script.js" defer></script>
 <!--[if lt IE 9]><script src="/static/js/libs/respond-1.4.2.min.js"></script><![endif]-->
+<link type="text/css" rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css" />
 <!-- /scripts -->
 </head>
 <body>
@@ -53,9 +54,9 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li>
-              {% if (request.endpoint == 'venues') or
-                (request.endpoint == 'search_venues') or
-                (request.endpoint == 'show_venue') %}
+              {% if (request.endpoint == 'venue.list_page') or
+                (request.endpoint == 'venue.search_page') or
+                (request.endpoint == 'venue.detail_page') %}
               <form class="search" method="post" action="/venues/search">
                 <input class="form-control"
                   type="search"
@@ -64,9 +65,9 @@
                   aria-label="Search">
               </form>
               {% endif %}
-              {% if (request.endpoint == 'artist.artists') or
-                (request.endpoint == 'artist.search_artists') or
-                (request.endpoint == 'artist.show_artist') %}
+              {% if (request.endpoint == 'artist.list_page') or
+                (request.endpoint == 'artist.search_page') or
+                (request.endpoint == 'artist.detail_page') %}
               <form class="search" method="post" action="/artists/search">
                 <input class="form-control"
                   type="search"
@@ -78,9 +79,9 @@
             </li>
           </ul>
           <ul class="nav navbar-nav">
-            <li {% if request.endpoint == 'venues' %} class="active" {% endif %}><a href="{{ url_for('venue.venues') }}">Venues</a></li>
-            <li {% if request.endpoint == 'artists' %} class="active" {% endif %}><a href="{{ url_for('artist.artists') }}">Artists</a></li>
-            <li {% if request.endpoint == 'shows' %} class="active" {% endif %}><a href="{{ url_for('show.shows') }}">Shows</a></li>
+            <li {% if request.endpoint == 'venue.list_page' %} class="active" {% endif %}><a href="{{ url_for('venue.list_page') }}">Venues</a></li>
+            <li {% if request.endpoint == 'artist.list_page' %} class="active" {% endif %}><a href="{{ url_for('artist.list_page') }}">Artists</a></li>
+            <li {% if request.endpoint == 'show.list_page' %} class="active" {% endif %}><a href="{{ url_for('show.list_page') }}">Shows</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -113,10 +114,16 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script type="text/javascript" src="/static/js/libs/jquery-1.11.1.min.js"><\/script>')</script>
+  <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+  crossorigin="anonymous"></script>
   <script type="text/javascript" src="/static/js/libs/bootstrap-3.1.1.min.js" defer></script>
   <script type="text/javascript" src="/static/js/plugins.js" defer></script>
-
+  {% block javascript %}{% endblock %}
 </body>
 </html>

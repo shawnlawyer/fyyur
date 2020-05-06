@@ -1,71 +1,44 @@
 # -------------------------------------------------------------------------- #
 # Imports
 # -------------------------------------------------------------------------- #
+
 import logging
-import os
-from envs import env
 from logging import Formatter, FileHandler
+from envs import env
+from app import app, db
 
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+@app.before_first_request
+def before_first_request_func():
 
-from config import Config
-from blueprints import venue, show, artist
+    pass
 
-# -------------------------------------------------------------------------- #
-# App Config.
-# -------------------------------------------------------------------------- #
+@app.before_request
+def before_request():
 
-from app import app
+    pass
+    #db.session.open()
 
-from models import Artist,Show,Venue
-# -------------------------------------------------------------------------- #
-# Blueprints register.
-# -------------------------------------------------------------------------- #
+@app.after_request
+def after_request(response):
 
-app.register_blueprint(artist)
-app.register_blueprint(venue)
-app.register_blueprint(show)
+    return response
 
+@app.teardown_request
+def teardown_request(error=None):
 
-# -------------------------------------------------------------------------- #
-# Filters.
-# -------------------------------------------------------------------------- #
+    db.session.close()
 
+    if error:
 
+        if not app.debug:
 
-
-# -------------------------------------------------------------------------- #
-# Controllers.
-# -------------------------------------------------------------------------- #
-
-@app.route('/')
-def index():
-    return render_template('pages/home.html')
-
-
-# -------------------------------------------------------------------------- #
-# Errors and Logs.
-# -------------------------------------------------------------------------- #
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('errors/404.html'), 404
-
-
-@app.errorhandler(500)
-def server_error(error):
-    return render_template('errors/500.html'), 500
-
-
-if not app.debug:
-    file_handler = FileHandler('logs/app/error.log')
-    file_handler.setFormatter(Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    app.logger.setLevel(logging.INFO)
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    app.logger.info('errors')
+            file_handler = FileHandler('logs/app/error.log')
+            file_handler.setFormatter(Formatter(
+                '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+            app.logger.setLevel(logging.INFO)
+            file_handler.setLevel(logging.INFO)
+            app.logger.addHandler(file_handler)
+            app.logger.info('errors')
 
 # -------------------------------------------------------------------------- #
 # Launch.

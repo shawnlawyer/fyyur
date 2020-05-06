@@ -18,3 +18,5 @@ class Venue(db.Model):
 
     def __repr__(self):
         return '<Venue %r>' % self.name
+
+
