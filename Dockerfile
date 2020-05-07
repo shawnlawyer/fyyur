@@ -4,7 +4,13 @@ EXPOSE 80
 
 RUN dnf -y update && dnf clean all
 
+RUN dnf install -y sudo && \
+    adduser user && \
+    echo "user ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/user && \
+    chmod 0440 /etc/sudoers.d/user
+
 RUN dnf install -y \
+    gcc \
     nginx \
     screen \
     unzip \
@@ -19,13 +25,12 @@ RUN dnf install -y \
 COPY . /var/www/html
 COPY ./docker/nginx.conf /etc/nginx/
 
+USER user
 
-RUN ln -sf /dev/stdout /var/www/html/access.log && ln -sf /dev/stderr /var/www/html/error.log
-RUN echo "screen -r" > /root/.bash_history
+RUN echo "screen -r" > ~/.bash_history
 
-RUN pip3 install -r requirements.txt
+RUN sudo pip3 install -r requirements.txt
 
-USER root
 
 ENTRYPOINT ["/var/www/html/start.sh"]
 

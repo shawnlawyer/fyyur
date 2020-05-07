@@ -45,13 +45,13 @@ class controller(object):
             db.session.add(model)
             db.session.commit()
 
-            flash('Artist ' + request.form['name'] + ' was successfully listed!')
+            flash('Artist ' + request.form.get('name','') + ' was successfully listed!')
 
             return redirect(url_for('artist.detail_page', artist_id=model.id))
 
         except:
 
-            flash('An error occurred. Artist ' + form.name + ' could not be listed.')
+            flash('An error occurred. Artist ' + request.form.get('name','') + ' could not be listed.')
 
         return render_template('artist/pages/list.html')
 

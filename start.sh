@@ -20,6 +20,6 @@ python3 migrate.py db upgrade
 
 screen -dmS APP bash -c 'python3 app.py'
 
-nginx
+sudo nginx
 
 tail -f logs/nginx/access.log -f logs/nginx/error.log
