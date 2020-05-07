@@ -10,11 +10,12 @@ class controller:
 
     @staticmethod
     def create_action(kwargs={}):
+        """Creates a Show"""
 
 
         try:
             if not kwargs:
-                
+
                 form = ShowForm(request.form)
 
                 venue = Venue().query.filter(Venue.name == form.venue_id.data).first()
@@ -45,6 +46,7 @@ class controller:
 
     @staticmethod
     def create_form_page():
+        """Returns the rendered page for creating a Show"""
 
         form = ShowForm()
 
@@ -55,6 +57,7 @@ class controller:
 
     @staticmethod
     def list_page():
+        """Returns the rendered page of a list of Show records"""
 
         data = []
 

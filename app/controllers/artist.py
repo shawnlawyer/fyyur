@@ -8,6 +8,7 @@ class controller(object):
 
     @staticmethod
     def create_form_page():
+        """Returns the rendered page for creating an Artist"""
 
         form = ArtistForm()
 
@@ -18,6 +19,7 @@ class controller(object):
 
     @staticmethod
     def create_action(kwargs=None):
+        """Creates an Artist"""
 
         try:
 
@@ -55,6 +57,7 @@ class controller(object):
 
     @staticmethod
     def edit_form_page(id):
+        """Returns the rendered page for editing an Artist"""
 
         form = ArtistForm(request.form)
 
@@ -71,6 +74,7 @@ class controller(object):
 
     @staticmethod
     def edit_action(id, kwargs=None):
+        """Edit an Artist"""
 
         try:
             if not kwargs:
@@ -104,6 +108,7 @@ class controller(object):
 
     @staticmethod
     def detail_page(id):
+        """Returns the rendered page of a Artist detail"""
 
         model = Artist.query.filter(Artist.id == id).first_or_404()
 
@@ -114,6 +119,7 @@ class controller(object):
 
     @staticmethod
     def list_page():
+        """Returns the rendered page of a list of Artist records"""
 
         models = Artist.query.all()
 
@@ -124,6 +130,7 @@ class controller(object):
 
     @staticmethod
     def search_page(search=None):
+        """Returns the rendered page of a list of Artist search records"""
 
         if not search:
             search = request.form.get('search_term', '')
@@ -142,7 +149,8 @@ class controller(object):
         )
 
     @staticmethod
-    def search_feed(search=None):
+    def autocomplete_name_json(search=None):
+        """Returns a json list of Artist names for autocomplete"""
 
         if not search:
             search = request.form.get('term', '')

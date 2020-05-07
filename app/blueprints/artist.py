@@ -41,6 +41,6 @@ def search_page():
     return controller.search_page()
 
 @blueprint.route('/xhr/artists/name/autocomplete', methods=['POST'] )
-def search_feed():
+def autocomplete_name_json():
 
-    return controller.search_feed()
+    return controller.autocomplete_name_json()

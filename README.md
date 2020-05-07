@@ -21,6 +21,7 @@ We want Fyyur to be the next new platform that artists and musical venues can us
 
 Our tech stack will include:
 
+* **Docker** containerization software to package up and run the application
 * **SQLAlchemy ORM** to be our ORM library of choice
 * **PostgreSQL** as our database of choice
 * **Python3** and **Flask** as our server language and server framework
@@ -31,56 +32,43 @@ Our tech stack will include:
 
   ```sh
   ├── README.md
-  ├── app.py *** the main driver of the app.
-                    "python app.py" to run after installing dependences
-  ├── config.py *** Database URLs, CSRF generation, etc
-  ├── error.log
-  ├── forms.py *** Your forms
-  ├── models.py  *** Your SQL Alchemy models
-  ├── requirements.txt *** The dependencies we need to install with "pip3 install -r requirements.txt"
-  ├── static
-  │   ├── css
-  │   ├── font
-  │   ├── ico
-  │   ├── img
-  │   └── js
-  └── templates
-      ├── errors
-      ├── forms
-      ├── layouts
-      └── pages
+  ├── logs/app/error.log
+  ├── requirements.txt
+  ├── Dockerfile
+  ├── migrate.py
+  ├── app.py
+  ├── docker-compose.yml
+  ├── env.example
+  ├── app
+  │   ├── config.py
+  │   ├── blueprints
+  │   ├── controllers
+  │   ├── forms
+  │   ├── models
+  │   ├── static
+  │   │   ├── css
+  │   │   ├── font
+  │   │   ├── ico
+  │   │   ├── img
+  │   │   └── js
+  │   └── templates
+  │       ├── artist
+  │       ├── show
+  │       ├── venue
+  │       ├── errors
+  │       ├── forms
+  │       ├── layouts
+  │       └── pages
+  ├── docker
+  │   └── nginx.conf
+  └── logs
+      ├── nginx
+      │   ├── access.log
+      │   └── error.log
+      └── app
+          └── error.log
   ```
-
-Overall:
-* Models are located in `models.py`.
-* Controllers are located in `app.py`.
-* The web frontend is located in `templates/`, which builds static assets deployed to the web server at `static/`.
-* Web forms for creating data are located in `form.py`
-
-
-Highlight folders:
-* `templates/pages` -- (Already complete.) Defines the pages that are rendered to the site. These templates render views based on data passed into the template’s view, in the controllers defined in `app.py`. These pages successfully represent the data to the user, and are already defined for you.
-* `templates/layouts` -- (Already complete.) Defines the layout that a page can be contained in to define footer and header code for a given page.
-* `templates/forms` -- (Already complete.) Defines the forms used to create new artists, shows, and venues.
-* `app.py` -- (Missing functionality.) Defines routes that match the user’s URL, and controllers which handle data and renders views to the user. This is the main file you will be working on to connect to and manipulate the database and render views with data to the user, based on the URL.
-* `models.py` -- (Missing functionality.) Defines the data models that set up the database tables.
-* `config.py` -- (Missing functionality.) Stores configuration variables and instructions, separate from the main application code. This is where you will need to connect to the database.
-
-
-Instructions
------
-
-1. Understand the Project Structure (explained above) and where important files are located.
-2. Build and run local development following the Development Setup steps below.
-3. Fill in the missing functionality in this application: this application currently pulls in fake data, and needs to now connect to a real database and talk to a real backend.
-3. Fill out every `TODO` section throughout the codebase. We suggest going in order of the following:
-
-  1. Connect to a database in `config.py`. A project submission that uses a local database connection is fine.
-  2. Using SQLAlchemy, set up normalized models for the objects we support in our web app in `/models.py`. Check out the sample pages provided at /artists/1, /venues/1, and /shows/1 for examples of the data we want to model, using all of the learned best practices in database schema design. Implement missing model properties and relationships using database migrations via Flask-Migrate.
-  3. Implement form submissions for creating new Venues, Artists, and Shows. There should be proper constraints, powering the `/create` endpoints that serve the create form templates, to avoid duplicate or nonsensical form submissions. Submitting a form should create proper new records in the database.
-  4. Implement the controllers for listing venues, artists, and shows. Note the structure of the mock data used. We want to keep the structure of the mock data.
-  5. Implement search, powering the `/search` endpoints that serve the application's search functionalities.
-  6. Serve venue and artist detail pages, powering the `<venue|artist>/<id>` endpoints that power the detail pages.
+  
 
 
 Acceptance Criteria
@@ -101,7 +89,7 @@ Acceptance Criteria
 
 Looking to go above and beyond? This is the right section for you! Here are some challenges to make your submission stand out:
 
-*  Implement artist availability. An artist can list available times that they can be booked. Restrict venues from being able to create shows with artists during a show time that is outside of their availability.
+* Implement artist availability. An artist can list available times that they can be booked. Restrict venues from being able to create shows with artists during a show time that is outside of their availability.
 * Show Recent Listed Artists and Recently Listed Venues on the homepage, returning results for Artists and Venues sorting by newly created. Limit to the 10 most recently listed items.
 * Implement Search Artists by City and State, and Search Venues by City and State. Searching by "San Francisco, CA" should return all artists or venues in San Francisco, CA.
 
@@ -109,32 +97,12 @@ Best of luck in your final project! Fyyur depends on you!
 
 ### Development Setup
 
-First, [install Flask](http://flask.pocoo.org/docs/1.0/installation/#install-flask) if you haven't already.
+- cp .env.example .env   
+  
+- docker-compose up -d --build  
+  
+- docker exec -it fyyur_app_1 bash
 
-  ```
-  $ cd ~
-  $ sudo pip3 install Flask
-  ```
+- python3 migrate.py db upgrade
 
-To start and run the local development server,
-
-1. Initialize and activate a virtualenv:
-  ```
-  $ cd YOUR_PROJECT_DIRECTORY_PATH/
-  $ virtualenv --no-site-packages env
-  $ source env/bin/activate
-  ```
-
-2. Install the dependencies:
-  ```
-  $ pip install -r requirements.txt
-  ```
-
-3. Run the development server:
-  ```
-  $ export FLASK_APP=myapp
-  $ export FLASK_ENV=development # enables debug mode
-  $ python3 app.py
-  ```
-
-4. Navigate to Home page [http://localhost:5000](http://localhost:5000)
+- browse to http://localhost/  

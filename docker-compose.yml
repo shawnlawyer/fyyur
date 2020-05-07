@@ -22,5 +22,4 @@ services:
       POSTGRES_PASSWORD: data
       POSTGRES_DB: data
     volumes:
-      - ./postgres:/var/lib/postgresql:delegated
-
+      - ./postgres/data

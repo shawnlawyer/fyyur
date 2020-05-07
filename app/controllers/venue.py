@@ -7,9 +7,9 @@ from app.models import Venue, Show
 
 class controller(object):
 
-
     @staticmethod
     def create_form_page():
+        """Returns the rendered page for creating a Venue"""
 
         form = VenueForm()
 
@@ -20,6 +20,7 @@ class controller(object):
 
     @staticmethod
     def create_action(kwargs={}):
+        """Creates a Venue"""
 
         try:
 
@@ -58,6 +59,7 @@ class controller(object):
 
     @staticmethod
     def edit_form_page(id):
+        """Returns the rendered page for editing a Venue"""
 
         try:
 
@@ -79,6 +81,7 @@ class controller(object):
 
     @staticmethod
     def edit_action(id, kwargs={}):
+        """Edit a Venue"""
 
         try:
             if not kwargs:
@@ -113,6 +116,7 @@ class controller(object):
 
     @staticmethod
     def delete_action(id):
+        """Deletes a Venue"""
 
         try:
 
@@ -133,6 +137,7 @@ class controller(object):
 
     @staticmethod
     def detail_page(id):
+        """Returns the rendered page of a Venue detail"""
 
         try:
 
@@ -153,6 +158,7 @@ class controller(object):
 
     @staticmethod
     def list_page():
+        """Returns the rendered page of a list of Venue records"""
 
         try:
 
@@ -173,6 +179,7 @@ class controller(object):
 
     @staticmethod
     def search_page(search=None):
+        """Returns the rendered page of a list of Venue search records"""
 
         if not search:
 
@@ -192,11 +199,38 @@ class controller(object):
         )
 
     @staticmethod
-    def search_feed(search=None):
+    def autocomplete_name_json(search=""):
+        """Returns a json list of Venue names for autocomplete"""
 
         if not search:
+
             search = request.form.get('term', '')
 
         models = Venue.query.filter(Venue.name.ilike("%" + search + "%")).all()
 
         return jsonify([model.name for model in models])
+
+    @staticmethod
+    def autocomplete_hours_json(filter=""):
+        """Returns a json list of show hours for autocomplete"""
+
+        if not filter:
+
+            filter = request.form.get('term', '')
+
+        time = datetime.datetime.strptime("1970-01-01 00:00", "%Y-%m-%d %H:%M")
+        end = datetime.datetime.strptime("1970-01-02 00:00", "%Y-%m-%d %H:%M")
+
+        times = []
+
+        while time < end:
+
+            time_string = str(time.strftime("%-I:%M %p"))
+
+            if time_string.startswith(filter):
+
+                times.append(time_string)
+
+            time += datetime.timedelta(minutes=30)
+
+        return jsonify(times)

@@ -46,22 +46,11 @@ def search_page():
     return controller.search_page()
 
 @blueprint.route('/xhr/venues/name/autocomplete', methods=['POST'])
-def search_feed():
+def autocomplete_name_json():
 
-    return controller.search_feed()
+    return controller.autocomplete_name_json()
 
 @blueprint.route('/xhr/venues/hours/autocomplete', methods=['POST'])
-def hours_feed():
+def autocomplete_hours_json():
 
-    import datetime
-    from flask import jsonify
-    times = []
-    time = datetime.datetime.strptime("1970-01-01 00:00", "%Y-%m-%d %H:%M")
-    end = datetime.datetime.strptime("1970-01-02 00:00", "%Y-%m-%d %H:%M")
-    while time < end:
-        time_string = str(time.strftime("%-I:%M %p"))
-        if time_string.startswith(request.form.get('term', '')):
-            times.append(str(time.strftime("%-I:%M %p")))
-        time += datetime.timedelta(minutes=30)
-
-    return jsonify(times)
+    return controller.autocomplete_hours_json()

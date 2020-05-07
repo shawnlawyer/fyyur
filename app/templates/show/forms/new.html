@@ -1,5 +1,6 @@
 {% extends 'layouts/main.html' %}
 {% block title %}New Show Listing{% endblock %}
+
 {% block content %}
   <div class="form-wrapper">
     <form method="post" class="form">
@@ -27,29 +28,31 @@
     </form>
   </div>
 {% endblock %}
+
 {% block javascript %}
 <script type="text/javascript">
 $(document).ready(
     function() {
-        $('.datepicker').datepicker({
-          minDate: new Date().now,
-          dateFormat: 'MM d, yy',
-          changeMonth: true,
-          changeYear: true
-        });
-        $('#timepicker').autocomplete({
-            source: function (request, response) {
-                $.post('{{ url_for("venue.hours_feed") }}', request, response);
-            }
-        });
         $('#artist_id').autocomplete({
             source: function (request, response) {
-                $.post('{{ url_for("artist.search_feed") }}', request, response);
+                $.post('{{ url_for("artist.autocomplete_name_json") }}', request, response);
             }
         });
         $('#venue_id').autocomplete({
             source: function (request, response) {
-                $.post('{{ url_for("venue.search_feed") }}', request, response);
+                $.post('{{ url_for("venue.autocomplete_name_json") }}', request, response);
+            }
+        });
+
+        $('.datepicker').datepicker({
+            minDate: new Date().now,
+            dateFormat: 'MM d, yy',
+            changeMonth: true,
+            changeYear: true
+        });
+        $('#timepicker').autocomplete({
+            source: function (request, response) {
+                $.post('{{ url_for("venue.autocomplete_hours_json") }}', request, response);
             }
         });
     }

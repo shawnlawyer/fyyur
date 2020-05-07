@@ -19,9 +19,13 @@ RUN dnf install -y \
 COPY . /var/www/html
 COPY ./docker/nginx.conf /etc/nginx/
 
-RUN pip3 install -r requirements.txt
+
 RUN ln -sf /dev/stdout /var/www/html/access.log && ln -sf /dev/stderr /var/www/html/error.log
 RUN echo "screen -r" > /root/.bash_history
+
+RUN pip3 install -r requirements.txt
+
+USER root
 
 ENTRYPOINT ["/var/www/html/start.sh"]
 
