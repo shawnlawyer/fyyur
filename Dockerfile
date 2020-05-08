@@ -11,6 +11,7 @@ RUN dnf install -y sudo && \
 
 RUN dnf install -y \
     gcc \
+    python3-devel \
     nginx \
     screen \
     unzip \
@@ -23,7 +24,6 @@ RUN dnf install -y \
     && n stable
 
 COPY . /var/www/html
-COPY ./docker/nginx.conf /etc/nginx/
 
 USER user
 
@@ -31,6 +31,5 @@ RUN echo "screen -r" > ~/.bash_history
 
 RUN sudo pip3 install -r requirements.txt
 
-
-ENTRYPOINT ["/var/www/html/start.sh"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
 
