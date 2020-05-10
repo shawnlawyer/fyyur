@@ -131,3 +131,4 @@ package-lock.json
 .bash_history
 data/text/
 *.sock
+postgres/
