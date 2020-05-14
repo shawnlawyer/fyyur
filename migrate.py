@@ -17,7 +17,7 @@ def import_models():
         for file_name in file_names:
             if file_name.endswith("py") and not file_name in EXCLUDE_FILES:
                 file_path = os.path.join(dir_path, file_name)
-                module_name = file_path.replace(os.sep, ".").replace('.py')
+                module_name = file_path.replace(os.sep, ".").replace('.py', '')
                 importlib.import_module(module_name)
 
 if __name__ == '__main__':
